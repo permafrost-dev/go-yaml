@@ -185,6 +185,27 @@ func (e *encoder) marshal(tag string, in reflect.Value) {
 func (e *encoder) mapv(tag string, in reflect.Value) {
 	e.mappingv(tag, func() {
 		keys := keyList(in.MapKeys())
+		//get index of key "name"
+		for _, k := range keys {
+			if k.String() == "name" {
+				//swap key "name" to the first
+				keys[0], keys[k.Interface().(int)] = keys[k.Interface().(int)], keys[0]
+				break
+			}
+
+			if k.String() == "run" {
+				//swap key "run" to the last
+				keys[len(keys)-1], keys[k.Interface().(int)] = keys[k.Interface().(int)], keys[len(keys)-1]
+				break
+			}
+
+			if k.String() == "with" {
+				//swap key "run" to the last
+				keys[len(keys)-1], keys[k.Interface().(int)] = keys[k.Interface().(int)], keys[len(keys)-1]
+				break
+			}
+		}
+
 		//sort.Sort(keys)
 		for _, k := range keys {
 			e.marshal("", k)
