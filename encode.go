@@ -230,6 +230,12 @@ func (e *encoder) structv(tag string, in reflect.Value) {
 			if info.OmitEmpty && isZero(value) {
 				continue
 			}
+			if info.NewLineBefore {
+				e.marshal("\n", reflect.ValueOf(info.Key))
+				e.flow = info.Flow
+				e.marshal("", value)
+				continue
+			}
 			e.marshal("", reflect.ValueOf(info.Key))
 			e.flow = info.Flow
 			e.marshal("", value)
@@ -350,7 +356,7 @@ func (e *encoder) stringv(tag string, in reflect.Value) {
 	switch {
 	case strings.Contains(s, "\n"):
 		if e.flow {
-			style = yaml_DOUBLE_QUOTED_SCALAR_STYLE
+			style = yaml_FOLDED_SCALAR_STYLE //yaml_DOUBLE_QUOTED_SCALAR_STYLE
 		} else {
 			style = yaml_LITERAL_SCALAR_STYLE
 		}
