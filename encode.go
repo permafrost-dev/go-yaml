@@ -245,7 +245,7 @@ func (e *encoder) structv(tag string, in reflect.Value) {
 			if m.Len() > 0 {
 				e.flow = false
 				keys := keyList(m.MapKeys())
-				sort.Sort(keys)
+				//sort.Sort(keys)
 				for _, k := range keys {
 					if _, found := sinfo.FieldsMap[k.String()]; found {
 						panic(fmt.Sprintf("cannot have key %q in inlined map: conflicts with struct field", k.String()))
