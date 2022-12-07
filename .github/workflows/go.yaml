@@ -4,37 +4,32 @@ on: [push, pull_request]
 jobs:
   test:
     name: Test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         go:
-        - "1.5"
-        - "1.6"
-        - "1.7"
-        - "1.8"
-        - "1.9"
-        - "1.10"
-        - "1.11"
-        - "1.12"
-        - "1.13"
-        - "1.14"
         - "1.15"
-        - "1.16.0-beta1"
+        - "1.16"
+        - "1.17"
+        - "1.18"
+        - "1.19"
         - "tip"
     env:
       GOPATH: ${{ github.workspace }}/go
     steps:
     - name: Check out code into the Go module directory
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
-        path: ${{ github.workspace }}/go/src/gopkg.in/yaml.v3
+        path: ${{ github.workspace }}/go/src/github.com/permafrost-dev/go-yaml
+        
     - name: Set up Go ${{ matrix.go }}
       if: matrix.go != 'tip'
       uses: actions/setup-go@v2
       with:
         go-version: ${{ matrix.go }}
         stable: false
+        
     - name: Set up Go ${{ matrix.go }}
       if: matrix.go == 'tip'
       run: |
