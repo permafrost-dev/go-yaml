@@ -21,7 +21,6 @@ import (
 	"io"
 	"reflect"
 	"regexp"
-	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -186,7 +185,7 @@ func (e *encoder) marshal(tag string, in reflect.Value) {
 func (e *encoder) mapv(tag string, in reflect.Value) {
 	e.mappingv(tag, func() {
 		keys := keyList(in.MapKeys())
-		sort.Sort(keys)
+		//sort.Sort(keys)
 		for _, k := range keys {
 			e.marshal("", k)
 			e.marshal("", in.MapIndex(k))
